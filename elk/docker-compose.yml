@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+    container_name: elasticsearch
+    environment:
+      - node.name=elasticsearch
+      - discovery.type=single-node
+    ports:
+      - ${ELASTIC_REST_PORT}:9200
+      - ${ELASTIC_NODE_PORT}:9300
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    networks:
+      - db1_sre
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.15.0
+    container_name: logstash
+    volumes:
+      - ./logstash-config/:/usr/share/logstash/pipeline/
+    depends_on:
+      - elasticsearch
+    ports:
+      - ${LOGSTASH_BEATS_PORT}:5000
+      - ${LOGSTASH_API_PORT}:9600
+    networks:
+      - db1_sre
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.15.0
+    container_name: kibana
+    depends_on:
+      - elasticsearch
+    ports:
+      - ${KIBANA_PORT}:5601
+    networks:
+      - db1_sre
+
+volumes:
+  es_data:
+
+networks:
+  db1_sre:
+    external: true

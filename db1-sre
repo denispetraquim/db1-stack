@@ -1,0 +1,42 @@
+#!/usr/bin/bash
+set -x
+STACK_PATH=$(pwd)
+
+echo "DB1Group SRE"
+
+source "$STACK_PATH/.env.dist"
+if [ -f "$STACK_PATH/.env" ]; then
+    source "$STACK_PATH/.env"
+fi
+
+if [ "path" = $1 ]; then
+    echo $STACK_PATH
+    exit
+fi
+
+if [ "ps" = $1 ] || [ "ls" = $1 ]; then
+    docker ps
+    exit
+fi
+
+if [ "network" = $1 ]; then
+    NET=$(docker network ls | grep $1)
+
+    if [ -z "$NET" ]; then
+	    echo "db1_sre network not found. Creating one..."
+	    docker network create db1_sre
+	    echo "🕸️ Done!"
+    else
+	    echo "🕸️ db1_sre network already exists!"
+    fi
+fi
+
+COMPONENT=$STACK_PATH/$1
+
+if [ ! -d $COMPONENT ]; then
+    echo "\033[0;31mWhoops! Component \"$COMPONENT\" does not exists." >&2
+    exit 1
+fi
+
+CMD=${@:2}
+docker-compose -f $COMPONENT/docker-compose.yml ${CMD:-up -d}
