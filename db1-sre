@@ -23,11 +23,11 @@ if [ "network" = $1 ]; then
     NET=$(docker network ls | grep $1)
 
     if [ -z "$NET" ]; then
-	    echo "db1_sre network not found. Creating one..."
-	    docker network create db1_sre
+	    echo "$1 network not found. Creating one..."
+	    docker network create $1
 	    echo "🕸️ Done!"
     else
-	    echo "🕸️ db1_sre network already exists!"
+	    echo "🕸️ $1 network already exists!"
     fi
 fi
 
