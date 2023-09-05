@@ -43,4 +43,4 @@ volumes:
 
 networks:
   db1_sre:
-    external: true
+    driver: bridge
