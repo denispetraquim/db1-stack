@@ -4,14 +4,14 @@
 
 | Component | Description |
 | --- | --- |
-| `./db1-sre elk`| Kibana (http://localhost:5601) |
+| `./db1-stack elk`| Kibana (http://localhost:5601) |
 
 ## Commands
 
 | Command | Description |
 | --- | --- |
-| `./db1-sre ls` or `db1-sre ps` | List running containers |
-| `./db1-sre path` | Display where Stack is located |
+| `./db1-stack ls` or `db1-stack ps` | List running containers |
+| `./db1-stack path` | Display where Stack is located |
 
 ## Getting started
 
@@ -30,16 +30,16 @@ cd db1-stack
 ### Usage
 You can use the built-in Shell Script helper:
 ```shell
-./db1-sre <component> <docker compose command>
+./db1-stack <component> <docker compose command>
 ```
 
 The `<docker compose command>` defaults to `up -d`, so:
 ```shell
-./db1-sre mysql
+./db1-stack mysql
 ```
 Will be the same as:
 ```shell
-./db1-sre mysql up -d
+./db1-stack mysql up -d
 ```
 Which does a:
 ```shell
@@ -51,12 +51,12 @@ Behind the scenes.
 
 Like:
 ```shell
-./db1-sre mysql down
+./db1-stack mysql down
 ```
 
 Or:
 ```shell
-./db1-sre mysql logs -f
+./db1-stack mysql logs -f
 ```
 
 ---

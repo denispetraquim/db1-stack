@@ -2,7 +2,7 @@ version: '3'
 
 services:
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.9.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.9.1
     container_name: elasticsearch
     restart: always
     environment:
@@ -18,13 +18,15 @@ services:
       - stack
 
   logstash:
-    image: docker.elastic.co/logstash/logstash:8.9.0
+    image: docker.elastic.co/logstash/logstash:8.9.1
     container_name: logstash
     restart: always
     environment:
       - LS_JAVA_OPTS=-Xmx256m -Xms256m
     volumes:
       - ./logstash-config:/usr/share/logstash/config/
+      - ./logstash-config/:/usr/share/logstash/temp/
+      - ./logstash-logs:/usr/share/logstash/logs/
     command: logstash -f /usr/share/logstash/config/logstash.conf
     depends_on:
       - elasticsearch
@@ -35,7 +37,7 @@ services:
       - stack
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:8.9.0
+    image: docker.elastic.co/kibana/kibana:8.9.1
     container_name: kibana
     restart: always
     environment:
@@ -53,3 +55,6 @@ volumes:
 networks:
   stack:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16    
