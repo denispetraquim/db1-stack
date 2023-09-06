@@ -1,8 +1,8 @@
-#!/usr/bin/bash
+#!/bin/bash
 #set -x
 STACK_PATH=$(pwd)
 
-echo "DB1Group SRE"
+echo "DB1 Global Software - SRE"
 
 source "$STACK_PATH/.env.dist"
 if [ -f "$STACK_PATH/.env" ]; then
