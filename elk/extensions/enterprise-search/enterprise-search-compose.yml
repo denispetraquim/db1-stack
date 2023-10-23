@@ -15,6 +15,6 @@ services:
     ports:
       - 3002:3002
     networks:
-      - elk
+      - db1_stack
     depends_on:
       - elasticsearch

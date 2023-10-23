@@ -11,6 +11,6 @@ services:
     environment:
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
     networks:
-      - elk
+      - db1_stack
     depends_on:
       - elasticsearch
