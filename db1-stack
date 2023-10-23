@@ -2,9 +2,9 @@
 #set -x
 STACK_PATH=$(pwd)
 
-echo "DB1 Global Software - SRE"
+echo "DB1 Global Software - DB1 Stack Observability SRE"
 
-source "$STACK_PATH/.env.dist"
+# source "$STACK_PATH/.env.dist"
 if [ -f "$STACK_PATH/.env" ]; then
     source "$STACK_PATH/.env"
 fi
@@ -39,4 +39,5 @@ if [ ! -d $COMPONENT ]; then
 fi
 
 CMD=${@:2}
-docker-compose -f $COMPONENT/docker-compose.yml ${CMD:-up -d}
+#docker-compose -f $COMPONENT/docker-compose.yml ${CMD:-up -d}
+docker compose -f $COMPONENT/docker-compose.yml ${CMD:-up setup}

@@ -5,6 +5,7 @@
 | Component | Description |
 | --- | --- |
 | `./db1-stack elk`| Kibana (http://localhost:5601) |
+| `./db1-stack elk up -d`| Kibana (http://localhost:5601) |
 
 ## Commands
 
@@ -35,15 +36,15 @@ You can use the built-in Shell Script helper:
 
 The `<docker compose command>` defaults to `up -d`, so:
 ```shell
-./db1-stack mysql
+./db1-stack elk up setup
 ```
 Will be the same as:
 ```shell
-./db1-stack mysql up -d
+./db1-stack elk up -d
 ```
 Which does a:
 ```shell
-docker-compose -d mysql/docker-compose.yml up -d
+docker compose -f elk/docker-compose.yml up -d
 ```
 Behind the scenes.
 
@@ -51,12 +52,24 @@ Behind the scenes.
 
 Like:
 ```shell
-./db1-stack mysql down
+./db1-stack elk down
 ```
 
 Or:
 ```shell
-./db1-stack mysql logs -f
+./db1-stack elk logs -f
+```
+
+```shell
+./db1-stack elk logs elasticsearch -f
+```
+
+```shell
+./db1-stack elk logs logstash -f
+```
+
+```shell
+./db1-stack elk logs kibana -f
 ```
 
 ---
