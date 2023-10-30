@@ -19,22 +19,22 @@ if [ "ps" = $1 ] || [ "ls" = $1 ]; then
     exit
 fi
 
-if [ "network" = $1 ]; then
-    NET=$(docker network ls | grep $1)
+# if [ "network" = $1 ]; then
+#     NET=$(docker network ls | grep $1)
 
-    if [ -z "$NET" ]; then
-	    echo "$1 network not found. Creating one..."
-	    docker network create $1
-	    echo "🕸️ Done!"
-    else
-	    echo "🕸️ $1 network already exists!"
-    fi
-fi
+#     if [ -z "$NET" ]; then
+# 	    echo "$1 network not found. Creating one..."
+# 	    docker network create $1
+# 	    echo "🕸️ Done!"
+#     else
+# 	    echo "🕸️ $1 network already exists!"
+#     fi
+# fi
 
 COMPONENT=$STACK_PATH/$1
 
 if [ ! -d $COMPONENT ]; then
-    echo "\033[0;31mWhoops! Component \"$COMPONENT\" does not exists." >&2
+    echo -e "\033[0;31mComponent \"$COMPONENT\" does not exists." >&2
     exit 1
 fi
 
