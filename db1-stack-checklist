@@ -1,0 +1,64 @@
+#!/bin/bash
+check_existing_installation() {
+    if command -v docker >/dev/null && command -v docker-compose >/dev/null; then
+        echo "Docker e Docker Compose já estão instalados no sistema."
+        exit 0
+    fi
+}
+
+check_linux_distribution() {
+    if [ -f /etc/os-release ]; then
+        . /etc/os-release
+        if [ "$ID" = "debian" ] || [ "$ID" = "ubuntu" ]; then
+            echo "Debian ou Ubuntu detectado."
+            install_docker_compose
+        elif [ "$ID" = "rhel" ] || [ "$ID" = "centos" ] || [ "$ID" = "fedora" ]; then
+            echo "RedHat, CentOS ou Fedora detectado."
+            install_docker_compose
+        elif [ "$ID" = "suse" ]; then
+            echo "SUSE detectado."
+            install_docker_compose
+        elif [ "$ID" = "amzn" ]; then
+            echo "Amazon Linux 2023 detectado."
+            install_docker_compose_amzn
+        else
+            echo "Distribuição não suportada."
+        fi
+    else
+        echo "Arquivo /etc/os-release não encontrado. Não é possível determinar a distribuição."
+    fi
+}
+
+install_docker_compose() {
+    echo "Instalando Docker..."
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    sudo sh get-docker.sh
+    sudo usermod -aG docker $USER
+    sudo systemctl start docker
+    sudo systemctl enable docker
+    echo "Docker instalado com sucesso."
+
+    echo "Instalando Docker Compose v2..."
+    sudo curl -fsSL -o /usr/local/bin/docker-compose https://github.com/docker/compose/releases/download/v2.23.0/docker-compose-linux-x86_64
+    sudo chmod +x /usr/local/bin/docker-compose
+    echo "Docker Compose v2 instalado com sucesso."
+}
+
+install_docker_compose_amzn() {
+    echo "Instalando Docker..."
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    sudo sh get-docker.sh
+    sudo usermod -aG docker $USER
+    sudo systemctl start docker
+    sudo systemctl enable docker
+    echo "Docker instalado com sucesso."
+
+    echo "Instalando Docker Compose v2..."
+    sudo curl -fsSL -o /usr/local/bin/docker-compose https://github.com/docker/compose/releases/download/v2.23.0/docker-compose-linux-x86_64
+    sudo chmod +x /usr/local/bin/docker-compose
+    echo "Docker Compose v2 instalado com sucesso."
+}
+
+check_existing_installation
+
+check_linux_distribution
