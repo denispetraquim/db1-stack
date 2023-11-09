@@ -4,40 +4,29 @@ STACK_PATH=$(pwd)
 
 echo "DB1 Global Software - DB1 Stack Observability SRE"
 
-# source "$STACK_PATH/.env.dist"
-if [ -f "$STACK_PATH/.env" ]; then
-    source "$STACK_PATH/.env"
-fi
-
-if [ "path" = $1 ]; then
-    echo $STACK_PATH
-    exit
-fi
-
-if [ "ps" = $1 ] || [ "ls" = $1 ]; then
-    docker ps
-    exit
-fi
-
-# if [ "network" = $1 ]; then
-#     NET=$(docker network ls | grep $1)
-
-#     if [ -z "$NET" ]; then
-# 	    echo "$1 network not found. Creating one..."
-# 	    docker network create $1
-# 	    echo "🕸️ Done!"
-#     else
-# 	    echo "🕸️ $1 network already exists!"
-#     fi
-# fi
-
 COMPONENT=$STACK_PATH/$1
 
-if [ ! -d $COMPONENT ]; then
-    echo -e "\033[0;31mComponent \"$COMPONENT\" does not exists." >&2
-    exit 1
-fi
 
-CMD=${@:2}
-#docker-compose -f $COMPONENT/docker-compose.yml ${CMD:-up -d}
-docker compose -f $COMPONENT/docker-compose.yml ${CMD:-up setup}
+if [ "$#" -lt 1 ]; then
+    echo ""
+    echo "Por favor, forneça o paramêtro!"
+    echo ""
+    echo "1. db1@stack$ ./db1-stack elk"
+    echo "2. db1@stack$ ./db1-stack elk up -d"
+    echo ""
+    echo "1. db1@stack$ ./db1-stack mon"
+else
+    if [ ! -d $COMPONENT ]; then
+        echo -e "\033[0;31mComponent \"$COMPONENT\" does not exists." >&2
+        exit 1
+    else
+        if [ "$1" = "elk" ]; then
+            CMD=${@:2}
+            docker compose -f $COMPONENT/docker-compose.yml ${CMD:-up setup}
+        elif [ "$1" = "mon" ]; then
+            docker compose -f $COMPONENT/docker-compose.yml up -d
+            echo "Install Sucessfully - Monitoring!"
+
+        fi
+    fi
+fi
