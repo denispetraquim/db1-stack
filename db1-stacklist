@@ -47,12 +47,9 @@ install_docker_compose() {
 
 install_docker_compose_amzn() {
     echo "Instalando Docker..."
-    curl -fsSL https://get.docker.com -o get-docker.sh
-    sudo sh get-docker.sh
-    sudo usermod -aG docker $USER
+    sudo yum install docker -y
     sudo systemctl start docker
     sudo systemctl enable docker
-    sudo rm -f get-docker.sh
     echo "Docker instalado com sucesso."
 
     echo "Instalando Docker Compose v2..."
