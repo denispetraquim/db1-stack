@@ -15,11 +15,11 @@ check_linux_distribution() {
         elif [ "$ID" = "rhel" ] || [ "$ID" = "centos" ] || [ "$ID" = "fedora" ]; then
             echo "RedHat, CentOS ou Fedora detectado."
             install_docker_compose
-        elif [ "$ID" = "suse" ]; then
+        elif [ "$ID" = "suse" ] || [ "$ID" = "sles" ]; then
             echo "SUSE detectado."
             install_docker_compose
         elif [ "$ID" = "amzn" ]; then
-            echo "Amazon Linux 2023 detectado."
+            echo "Amazon Linux detectado."
             install_docker_compose_amzn
         else
             echo "Distribuição não suportada."
@@ -36,6 +36,7 @@ install_docker_compose() {
     sudo usermod -aG docker $USER
     sudo systemctl start docker
     sudo systemctl enable docker
+    sudo rm -f get-docker.sh
     echo "Docker instalado com sucesso."
 
     echo "Instalando Docker Compose v2..."
@@ -51,6 +52,7 @@ install_docker_compose_amzn() {
     sudo usermod -aG docker $USER
     sudo systemctl start docker
     sudo systemctl enable docker
+    sudo rm -f get-docker.sh
     echo "Docker instalado com sucesso."
 
     echo "Instalando Docker Compose v2..."

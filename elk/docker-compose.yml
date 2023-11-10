@@ -55,6 +55,7 @@ services:
       - 9300:9300
     environment:
       node.name: elasticsearch
+      bootstrap.memory_lock: true
       ES_JAVA_OPTS: -Xms512m -Xmx512m
       # Bootstrap password.
       # Used to initialize the keystore during the initial startup of
@@ -63,6 +64,10 @@ services:
       # Use single node discovery in order to disable production mode and avoid bootstrap checks.
       # see: https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
       discovery.type: single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     networks:
       - db1_stack
     restart: unless-stopped
@@ -81,7 +86,7 @@ services:
       - 50000:50000/udp
       - 9600:9600
     environment:
-      LS_JAVA_OPTS: -Xms256m -Xmx256m
+      LS_JAVA_OPTS: -Xms256m -Xmx512m
       LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-}
     networks:
       - db1_stack

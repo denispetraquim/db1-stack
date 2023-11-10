@@ -22,9 +22,9 @@ else
     else
         if [ "$1" = "elk" ]; then
             CMD=${@:2}
-            docker compose -f $COMPONENT/docker-compose.yml ${CMD:-up setup}
+            docker-compose -f $COMPONENT/docker-compose.yml ${CMD:-up setup}
         elif [ "$1" = "mon" ]; then
-            docker compose -f $COMPONENT/docker-compose.yml up -d
+            docker-compose -f $COMPONENT/docker-compose.yml up -d
             echo "Install Sucessfully - Monitoring!"
 
         fi
