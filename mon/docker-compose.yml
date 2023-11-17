@@ -55,7 +55,7 @@ services:
     depends_on:
       - alertmanager
     ports:
-      - 9095:9090
+      - 9090:9090
     networks:
       - db1_stack
     logging: *default-logging
