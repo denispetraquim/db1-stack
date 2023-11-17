@@ -26,6 +26,9 @@ else
         elif [ "$1" = "mon" ]; then
             docker-compose -f $COMPONENT/docker-compose.yml up -d
             echo "Install Sucessfully - Monitoring!"
+        elif [ "$1" = "node-exp" ]; then
+            docker-compose -f $COMPONENT/docker-compose.yml up -d
+            echo "Install Sucessfully - Node Exporter!"            
 
         fi
     fi
